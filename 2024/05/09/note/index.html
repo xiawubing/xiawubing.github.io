@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"xiawubing.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":200},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="感觉算是一个很有难度的MP，也可能是我之前没怎么用过动态内存分配，导致调试的时候一直运行时错误。 后来用了Valgrind辅助调试（不然内存的错误真的很难找）。 所以，还是很有记一记的必要。也帮助大家解决这个MP，和提供一种调试的思路。 MP10简介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MP10 note">
+<meta property="og:url" content="http://xiawubing.github.io/2024/05/09/note/index.html">
+<meta property="og:site_name" content="Xia Wubing&#39;s Blog">
+<meta property="og:description" content="感觉算是一个很有难度的MP，也可能是我之前没怎么用过动态内存分配，导致调试的时候一直运行时错误。 后来用了Valgrind辅助调试（不然内存的错误真的很难找）。 所以，还是很有记一记的必要。也帮助大家解决这个MP，和提供一种调试的思路。 MP10简介">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\32201\Pictures\Screenshots\%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE 2024-05-09 134613.png">
+<meta property="og:image" content="http://xiawubing.github.io/images/list.png">
+<meta property="og:image" content="http://xiawubing.github.io/images/lezi.png">
+<meta property="article:published_time" content="2024-05-09T03:21:27.000Z">
+<meta property="article:modified_time" content="2024-05-09T07:50:37.351Z">
+<meta property="article:author" content="Xia Wubing">
+<meta property="article:tag" content="ECE220">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\32201\Pictures\Screenshots\%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE 2024-05-09 134613.png">
+
+
+<link rel="canonical" href="http://xiawubing.github.io/2024/05/09/note/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://xiawubing.github.io/2024/05/09/note/","path":"2024/05/09/note/","title":"MP10 note"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MP10 note | Xia Wubing's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Xia Wubing's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP10%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">MP10简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">1.1.</span> <span class="nav-text">动态内存分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#minimap-%E4%BC%98%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">minimap 优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9Arequest%E5%8C%B9%E9%85%8D"><span class="nav-number">1.3.</span> <span class="nav-text">多request匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E5%BF%83%E5%BE%97"><span class="nav-number">2.</span> <span class="nav-text">调试心得</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%B2%A1%E6%9C%89%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">变量没有初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E8%B6%8A%E7%95%8C"><span class="nav-number">2.2.</span> <span class="nav-text">数组越界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%97%A0%E6%95%88%E6%8C%87%E9%92%88"><span class="nav-number">2.3.</span> <span class="nav-text">访问无效指针</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%90%E5%AD%90"><span class="nav-number">3.</span> <span class="nav-text">乐子</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xia Wubing"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Xia Wubing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://xiawubing.github.io/2024/05/09/note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Xia Wubing">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xia Wubing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MP10 note | Xia Wubing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MP10 note
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-05-09 11:21:27 / Modified: 15:50:37" itemprop="dateCreated datePublished" datetime="2024-05-09T11:21:27+08:00">2024-05-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>感觉算是一个很有难度的MP，也可能是我之前没怎么用过动态内存分配，导致调试的时候一直运行时错误。</p>
+<p>后来用了Valgrind辅助调试（不然内存的错误真的很难找）。</p>
+<p>所以，还是很有记一记的必要。也帮助大家解决这个MP，和提供一种调试的思路。</p>
+<h2 id="MP10简介"><a href="#MP10简介" class="headerlink" title="MP10简介"></a>MP10简介</h2><span id="more"></span>
+
+<p>MP10其实是MP9的一个升级版，主要功能还是通过 pyramid tree 查找平面中的点集，然后通过堆优化的dijkstra算法找出src和dst两个点集之间的最短路。</p>
+<p>但是与MP9相比，MP10有以下几个改动：</p>
+<ul>
+<li>实现了动态内存分配</li>
+<li>minimap优化</li>
+<li>实现了将多个request进行匹配（称MP9中找到两个request中共用的最短路的过程为“匹配”）</li>
+</ul>
+<p>接下来，分别记录这三个方面。</p>
+<h3 id="动态内存分配"><a href="#动态内存分配" class="headerlink" title="动态内存分配"></a>动态内存分配</h3><p>首先要完成 <em>mp10alloc.c</em> 文件中的三个函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">vertex_set_t</span>* <span class="title function_">new_vertex_set</span> <span class="params">()</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">free_vertex_set</span> <span class="params">(<span class="type">vertex_set_t</span>* vs)</span></span><br><span class="line"><span class="type">path_t</span>* <span class="title function_">new_path</span> <span class="params">()</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">free_path</span> <span class="params">(<span class="type">path_t</span>* path)</span></span><br></pre></td></tr></table></figure>
+
+<p>用 <code>malloc()</code> 实现内存分配，需要注意的是，区分 <code>vertex_set_t</code> 结构体中的 <code>count</code> 和 <code>id_array_size</code> 两个变量。<code>count</code> 是指点的个数，<code>id_array_size</code> 则是指 <code>id</code> 这个数组的大小。</p>
+<p>在后面增加数组长度的时候，我采用的方法是每次数组长度 $\times 2$，就是把 <code>id_array_size</code> $\times 2$ 之后 <code>realloc</code>。</p>
+<ul>
+<li><code>new_vertex_set</code> 中把 <code>minimap</code> 变量也初始化</li>
+<li><code>free</code> 过后的指针设为 <code>NULL</code>，防止再次访问</li>
+</ul>
+<p>在 <em>mp9.c</em> 的 <code>find_node</code> 函数中也要做出相应的变化，主要是加入一个点，判断 <code>count</code> 和 <code>id_array_size</code> 的关系，如果数组大小不够了，就要 <code>realloc</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="number">4</span>*nnum+<span class="number">1</span> &gt; p-&gt;n_nodes) &#123;</span><br><span class="line">    <span class="keyword">if</span> (in_range(loc, x, y1)) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (vs-&gt;count == vs-&gt;id_array_size) &#123;</span><br><span class="line">            <span class="type">int32_t</span>* new = (<span class="type">int32_t</span>*)<span class="built_in">realloc</span>(vs-&gt;id, <span class="number">2</span>*(vs-&gt;id_array_size)*<span class="keyword">sizeof</span>(<span class="type">int32_t</span>));</span><br><span class="line">            <span class="keyword">if</span>(new == <span class="literal">NULL</span>) <span class="keyword">return</span> ;</span><br><span class="line">            <span class="comment">// 最好新开一个指针，这样就算分配内存失败（返回NULL），原来的指针也还在</span></span><br><span class="line">            vs-&gt;id_array_size *= <span class="number">2</span>;</span><br><span class="line">            vs-&gt;id = new;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (vs-&gt;id != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (vs-&gt;count == <span class="number">0</span>) vs-&gt;id[<span class="number">0</span>] = p-&gt;node[nnum].id; <span class="comment">// 这里需要特判！！！</span></span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 题目说要从小到大排序，这里采用插排的思想</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> i = vs-&gt;count<span class="number">-1</span>; ; --i) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (p-&gt;node[nnum].id &gt; vs-&gt;id[i]) &#123;</span><br><span class="line">                        vs-&gt;id[i+<span class="number">1</span>] = p-&gt;node[nnum].id;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    vs-&gt;id[i+<span class="number">1</span>] = vs-&gt;id[i];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (p-&gt;node[nnum].id &lt; vs-&gt;id[<span class="number">0</span>]) vs-&gt;id[<span class="number">0</span>] = p-&gt;node[nnum].id;</span><br><span class="line">            &#125;</span><br><span class="line">            vs-&gt;count++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>dijkstra</code> 中的路径也需要先算出路径长度，然后分配内存，再将最短路写进去。比较简单，这里就略过了。</p>
+<h3 id="minimap-优化"><a href="#minimap-优化" class="headerlink" title="minimap 优化"></a>minimap 优化</h3><p><strong>如果一个平面上有很多很多点，是否有一种方法能快速判断两个点集有没有交集？</strong>如果能快速判断两个点集没有交集，就省去了不必要的合并，那就可以提高匹配request的效率。</p>
+<p>我们回想一下 pyramid tree 这个数据结构：</p>
+<p>pyramid tree 的0号结点（根节点）对应一整个平面，然后根节点的4四个后代（1，2，3，4）将平面分为了四个部分，分别是：</p>
+<ul>
+<li>$1: (p,q)|p&lt;x,q&lt;y_{left}$</li>
+<li>$2: (p,q)|p&gt;x,q&lt;y_{right}$</li>
+<li>$3: (p,q)|p&lt;x,q&gt;y_{left}$​</li>
+<li>$4: (p,q)|p&gt;x,q&gt;y_{right}$</li>
+</ul>
+<p>第一层 pyramid tree $1$ 个结点，将平面分为 1 块区域</p>
+<p>第二层 pyramid tree $4$ 个结点，将平面分为 4 块区域</p>
+<p>第三层 pyramid tree $8$ 个结点，将平面分为 8 块区域</p>
+<p>以此类推。</p>
+<p>我们考虑第五层的 pyramid tree，将平面分为64个区域，我们将这64个区域中的每个区域对应 <code>uint64_t</code> 无符号整数的一位(bit)。然后我们考虑一个点集中的 <code>minimap</code> 的含义就是：如果 <code>minimap</code> 的第 <code>i</code> 位是 1， 那么这个点集中在平面中的区域 <code>i</code> 有点。</p>
+<p>那么如果将两个点集的 <code>minimap</code> 进行按位与运算，如果 <code>minimap1 &amp; minimap2 == 0</code> 那么显然，这两个点集没有交集。</p>
+<p>首先我们完成 <code>int32_t mark_vertex_minimap (graph_t* g, pyr_tree_t* p)</code> 函数，来找到每个点属于哪个区域，也就是找到每个 pyramid tree 的叶子节点的在第五层的祖先结点编号，然后 $-21$ 得到的值。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int32_t</span> i = <span class="number">0</span>; i &lt; p-&gt;n_nodes; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i*<span class="number">4</span>+<span class="number">1</span> &gt; p-&gt;n_nodes) &#123; <span class="comment">// 如果是叶子结点</span></span><br><span class="line">        <span class="type">int32_t</span> id = p-&gt;node[i].id;</span><br><span class="line">        <span class="keyword">if</span> (id &lt; <span class="number">21</span>) g-&gt;vertex[id].mm_bit = i;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="type">int32_t</span> p = (i<span class="number">-1</span>)/<span class="number">4</span>;</span><br><span class="line">            <span class="keyword">while</span> (p &gt; <span class="number">84</span>) p = (p<span class="number">-1</span>)/<span class="number">4</span>;</span><br><span class="line">            g-&gt;vertex[id].mm_bit = p<span class="number">-21</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后完成 <code>void build_vertex_set_minimap</code> 函数，也就是合并点集每个结点的 <code>mm_bit</code> 到 <code>minimap</code> 变量，注意在此之前要将 <code>minimap</code> 变量初始化为0。</p>
+<h3 id="多request匹配"><a href="#多request匹配" class="headerlink" title="多request匹配"></a>多request匹配</h3><p>首先，我们有两个request类型的链表，available 和 shared。available 存还没有匹配上的request，shared 存已经匹配的request。对于shared链表中的每个元素，不仅有next指针，还有partner指针，指向与之配对的request。</p>
+<!-- <img src="C:\Users\32201\Pictures\Screenshots\屏幕截图 2024-05-09 134613.png" style="zoom: 50%;" /> -->
+<p><img src="/images/list.png"></p>
+<p>我们会有很多个request，对于每个新来的request，我们需要遍历available链表，查看是否能够匹配。假设在available中找到了 <code>cur</code> 与新的request <code>r</code> 相匹配，则将 <code>cur</code> 从 available链表中删除，将 <code>r</code> 插入 shared 链表。</p>
+<p>配对的时候，先用 <code>minimap</code> 判断有没有交集，如果没有就可以skip。</p>
+<h2 id="调试心得"><a href="#调试心得" class="headerlink" title="调试心得"></a>调试心得</h2><p>一开始遇到最多的问题就是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">realloc(): invalid old size</span><br><span class="line">Aborted</span><br></pre></td></tr></table></figure>
+
+<p>以及</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">double free or corruption (out)</span><br><span class="line">Aborted</span><br></pre></td></tr></table></figure>
+
+<p>也卡了很长时间。</p>
+<p>一开始一直以为是自己的 <code>realloc</code> 和 <code>free</code> 函数用错了，结果后来发现是数组越界。所以C语言在运行时的错误信息，编译器的反馈不一定准确。</p>
+<p>后来使用了 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Valgrind">valgrind</a> （一款用于内存调试、内存泄漏检测的软件开发工具）辅助调试才把bug修复。个人感觉valgrind的报错信息一般情况下都还是准确的，所以下面介绍一下valgrind的安装及使用。</p>
+<p>在 Linux 可以使用下面的命令安装 valgrind：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ wget ftp://sourceware.org/pub/valgrind/valgrind-3.23.0.tar.bz2</span><br><span class="line">$ bzip2 -d valgrind-3.23.0.tar.bz2</span><br><span class="line">$ tar -xf valgrind-3.23.0.tar</span><br><span class="line">$ cd valgrind-3.23.0</span><br><span class="line">$ ./configure &amp;&amp; make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>编译程序时，需要加上<code>-g</code>选项（我们的make文件中已经加了）</p>
+<p>使用 valgrind 检测内存使用情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ valgrind --tool=memcheck --leak-check=full  ./mp10 graph requests</span><br></pre></td></tr></table></figure>
+
+<p>下面记录了几个我用 valgrind 查出的bug（由于bug已经被修复了，只能只能凭印象描述一下bug QAQ）</p>
+<h3 id="变量没有初始化"><a href="#变量没有初始化" class="headerlink" title="变量没有初始化"></a>变量没有初始化</h3><p><strong>valgrind反馈</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">==332053== Conditional jump or move depends on uninitialised value(s)</span><br><span class="line">==332053==    at 0x10AD9A: handle_request (mp10match.c:85)</span><br><span class="line">==332053==    by 0x10CEC4: main (mp10main.c:485)</span><br><span class="line">==332053==</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，在 <code>mp10match.c</code> 文件的第 85 行，具体位置是 <code>handle_request</code> 函数内部。Valgrind 指出，程序在这里进行了一个条件跳转或者数据移动操作，但是它依赖于未初始化的值，导致了错误。</p>
+<p><strong>bug</strong></p>
+<p>在 <code>build_vertex_set_minimap</code> 函数中，<code>minimap</code> 没有初始化为0。</p>
+<h3 id="数组越界"><a href="#数组越界" class="headerlink" title="数组越界"></a>数组越界</h3><p><strong>valgrind反馈</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">==338005== Invalid read of size 4</span><br><span class="line">==338005==    at 0x109362: find_nodes (mp9.c:17)</span><br><span class="line">==338005==    by 0x10959F: find_nodes (mp9.c:53)</span><br><span class="line">==338005==    by 0x1096AF: find_nodes (mp9.c:56)</span><br><span class="line">==338005==    by 0x10964F: find_nodes (mp9.c:55)</span><br><span class="line">==338005==    by 0x1095F7: find_nodes (mp9.c:54)</span><br><span class="line">==338005==    by 0x10964F: find_nodes (mp9.c:55)</span><br><span class="line">==338005==    by 0x1095F7: find_nodes (mp9.c:54)</span><br><span class="line">==338005==    by 0x10959F: find_nodes (mp9.c:53)</span><br><span class="line">==338005==    by 0x10ABF0: handle_request (mp10match.c:48)</span><br><span class="line">==338005==    by 0x10CEDC: main (mp10main.c:485)</span><br><span class="line">==338005==  Address 0x4cb7a30 is 0 bytes after a block of size 113,680 alloc&#x27;d</span><br><span class="line">==338005==    at 0x484880F: malloc (vg_replace_malloc.c:446)</span><br><span class="line">==338005==    by 0x10BF98: make_pyramid_tree (mp10main.c:214)</span><br><span class="line">==338005==    by 0x10CDDA: main (mp10main.c:459)</span><br><span class="line">==338005==</span><br></pre></td></tr></table></figure>
+
+<p>这个错误发生在 <code>mp9.c</code> 文件的 <code>find_nodes</code> 函数的第 17 行，并且 Valgrind 指出这是一个 “Invalid read of size 4” 错误。同时，Valgrind 给出了更详细的信息：错误发生在 <code>find_nodes</code> 函数内部，但多次在不同的位置调用了该函数。</p>
+<p><strong>bug</strong></p>
+<ul>
+<li>在<code>find_node</code>函数中，插入元素时数组越界</li>
+<li><code>find_node</code> 递归的时候，判断边界情况时多加了 <code>=</code></li>
+</ul>
+<h3 id="访问无效指针"><a href="#访问无效指针" class="headerlink" title="访问无效指针"></a>访问无效指针</h3><p><strong>valgrind反馈</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">==355941== Invalid read of size 8</span><br><span class="line">==355941==    at 0x10B2EE: free_all_data (mp10match.c:218)</span><br><span class="line">==355941==    by 0x10CF93: main (mp10main.c:503)</span><br><span class="line">==355941==  Address 0x4d285b0 is 64 bytes inside a block of size 72 free&#x27;d</span><br><span class="line">==355941==    at 0x484BB2C: free (vg_replace_malloc.c:989)</span><br><span class="line">==355941==    by 0x10B301: free_all_data (mp10match.c:219)</span><br><span class="line">==355941==    by 0x10CF93: main (mp10main.c:503)</span><br><span class="line">==355941==  Block was alloc&#x27;d at</span><br><span class="line">==355941==    at 0x484880F: malloc (vg_replace_malloc.c:446)</span><br><span class="line">==355941==    by 0x10B69A: read_request (mp10main.c:26)</span><br><span class="line">==355941==    by 0x10CF24: main (mp10main.c:484)</span><br><span class="line">==355941==</span><br></pre></td></tr></table></figure>
+
+
+<p>根据 Valgrind 的输出，出现了 “Invalid read of size 8” 错误，表明在程序中发生了对大小为 8 字节的内存块的无效读取。这种错误通常与指针的错误使用相关。</p>
+<p>具体来说，错误发生在 <code>mp10match.c</code> 文件的 <code>free_all_data</code> 函数的第 218 行。Valgrind 指出，这是一个对已经释放的内存块进行读取的错误，而且读取的位置在这个内存块的 64 字节内。</p>
+<p><strong>bug</strong></p>
+<p>在找到匹配的request时，没有将这个request的 <code>next</code> 指针设为 <code>NULL</code></p>
+<h2 id="乐子"><a href="#乐子" class="headerlink" title="乐子"></a>乐子</h2><p><img src="/images/lezi.png"></p>
+<p>如何评价这是作者的MP10？</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wxpay.jpg" alt="Xia Wubing WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ECE220/" rel="tag"># ECE220</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/05/07/try/" rel="prev" title="World Quant">
+                  <i class="fa fa-angle-left"></i> World Quant
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Xia Wubing</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
