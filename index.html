@@ -126,7 +126,7 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
@@ -186,7 +186,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/05/23/class/" class="post-title-link" itemprop="url">Untitled</a>
+          <a href="/2024/05/23/class/" class="post-title-link" itemprop="url">C++ class学习笔记</a>
         </h2>
 
         <div class="post-meta-container">
@@ -204,7 +204,16 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-05-24 13:22:21" itemprop="dateModified" datetime="2024-05-24T13:22:21+08:00">2024-05-24</time>
+      <time title="Modified: 2024-05-24 13:23:33" itemprop="dateModified" datetime="2024-05-24T13:23:33+08:00">2024-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+        </span>
     </span>
 
   
@@ -217,115 +226,16 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>-–</p>
-<p>layout: c++</p>
-<p>title: C++ class学习笔记</p>
-<p>date: 2024-05-23 15:51:37</p>
-<p>tags: ECE220</p>
-<p>categories: C++</p>
-<p>-–</p>
-<p>蒟蒻速成了C艹，在这里记一下</p>
+          <p>蒟蒻速成了C艹，在这里记一下</p>
 <p>起因是dbh问了我一个问题，忽然想起到自己不会C艹QAQ</p>
-<h2 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h2><p>类中的成员可以是变量也可以是函数。</p>
-<p>成员函数又两种定义的方式，一种是在class里直接定义，一种是在class外用<strong>范围解析运算符 ::</strong> 定义。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Box</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">      <span class="type">double</span> length;      <span class="comment">// 长度</span></span><br><span class="line">      <span class="type">double</span> breadth;     <span class="comment">// 宽度</span></span><br><span class="line">      <span class="type">double</span> height;      <span class="comment">// 高度</span></span><br><span class="line">   </span><br><span class="line">      <span class="function"><span class="type">double</span> <span class="title">getVolume</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function">      </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> length * breadth * height;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>也可以</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Box</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">      <span class="type">double</span> length;      <span class="comment">// 长度</span></span><br><span class="line">      <span class="type">double</span> breadth;     <span class="comment">// 宽度</span></span><br><span class="line">      <span class="type">double</span> height;      <span class="comment">// 高度</span></span><br><span class="line">   </span><br><span class="line">      <span class="function"><span class="type">double</span> <span class="title">getVolume</span><span class="params">(<span class="type">void</span>)</span></span>; <span class="comment">// 成员函数声明</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 成员函数定义</span></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">Box::getVolume</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> length * breadth * height;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>后面的构造函数也有这两种定义方式。</p>
-<h2 id="访问修饰符-Access-modifiers"><a href="#访问修饰符-Access-modifiers" class="headerlink" title="访问修饰符 Access modifiers"></a>访问修饰符 Access modifiers</h2><p>C++通过 <code>public、private、protected</code>  来标记成员的访问类型（没有标记默认为<code>private</code>）</p>
-<ul>
-<li><code>public</code> 成员：在类的外部可以访问，可以通过类的名称<code>.</code> 成员名称访问。</li>
-<li><code>private</code> 成员：在类的外部不可访问，只有类里的函数和友元函数可以访问。</li>
-<li><code>protect</code> 成员：与 <code>private</code> 非常相似，但有一点不同，<code>protected</code> 成员在派生类（即子类）中是可访问的。</li>
-</ul>
-<h2 id="继承-派生类-Inheritance"><a href="#继承-派生类-Inheritance" class="headerlink" title="继承(派生类) Inheritance"></a>继承(派生类) Inheritance</h2><p>派生类顾名思义，就是从一个类或多个（基类super-class）中派生出来的类（<del>废话</del></p>
-<p><img src="/images/class1.png"></p>
-<p>课件里的这张图非常清晰地体现出了继承的结果，直接放图了。。（<del>侵删</del></p>
-<p>课件里画了多继承，但是没讲。。。</p>
-<h3 id="多继承-Multiple-Inheritance"><a href="#多继承-Multiple-Inheritance" class="headerlink" title="多继承 Multiple Inheritance"></a>多继承 Multiple Inheritance</h3><p>有很多种多继承 <del>多继承的关系形成一张拓扑图</del></p>
-<p><img src="/images/class2.png"></p>
-<p>树形的继承关系还好理解，但是如果一个类从两个基类中继承过来就会有一些问题。就是如果两个基类中有相同的函数名&#x2F;变量名如何区分？详见这篇文章 <a target="_blank" rel="noopener" href="https://blog.csdn.net/luoweifu/article/details/46959173">C++中类的多继承</a></p>
-<h2 id="构造函数-Constructor-析构函数-Destructor"><a href="#构造函数-Constructor-析构函数-Destructor" class="headerlink" title="构造函数 Constructor &amp; 析构函数 Destructor"></a>构造函数 Constructor &amp; 析构函数 Destructor</h2><p><img src="/images/class3.png"></p>
-<p>类的<strong>构造函数</strong>是类的一种特殊的成员函数，在每次创建类的新对象时执行。</p>
-<p>如果我们没有写构造函数，编译器也会自动帮我们定义默认构造函数和拷贝构造函数（实践发现好像不会自定义参数构造函数</p>
-<p>构造函数的名称与<strong>类的名称</strong>是<strong>完全相同</strong>的，并且不会返回任何类型，也不会返回 void。</p>
-<p>声明构造函数的时候是这样的：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Line</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="type">double</span> length;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="type">void</span> <span class="title">setLength</span><span class="params">( <span class="type">double</span> len )</span></span>;</span><br><span class="line">      <span class="function"><span class="type">double</span> <span class="title">getLength</span><span class="params">( <span class="type">void</span> )</span></span>;</span><br><span class="line">      <span class="built_in">Line</span>();  <span class="comment">// 这是构造函数 </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>有三种构造函数：默认的、带参数的构造函数、拷贝构造函数</p>
-<h3 id="默认构造函数"><a href="#默认构造函数" class="headerlink" title="默认构造函数"></a>默认构造函数</h3><p>默认构造函数在<strong>每次</strong>声明一个新的对象、并且没有初始化的时候都会被调用。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Line::<span class="built_in">Line</span>(<span class="type">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Object is being created&quot;</span> &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在后面的代码中，如果有</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Line a,b;</span><br></pre></td></tr></table></figure>
-
-<p>“Object is being created” 就会被输出两遍。</p>
-<h3 id="参数构造函数"><a href="#参数构造函数" class="headerlink" title="参数构造函数"></a>参数构造函数</h3><p>有两种写法，一种是普通的变量赋值，一种是使用初始化列表来初始化字段。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Line::<span class="built_in">Line</span>( <span class="type">double</span> len)</span><br><span class="line">&#123;</span><br><span class="line">    length = len;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Object is being created, length = &quot;</span> &lt;&lt; len &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Line::<span class="built_in">Line</span>( <span class="type">double</span> len): <span class="built_in">length</span>(len)</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Object is being created, length = &quot;</span> &lt;&lt; len &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>两者是等价的。用初始化列表如果有多个变量要初始化，可以通过逗号划分。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C::<span class="built_in">C</span>( <span class="type">double</span> a, <span class="type">double</span> b, <span class="type">double</span> c): <span class="built_in">X</span>(a), <span class="built_in">Y</span>(b), <span class="built_in">Z</span>(c)</span><br><span class="line">&#123;</span><br><span class="line">  ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="拷贝构造函数"><a href="#拷贝构造函数" class="headerlink" title="拷贝构造函数"></a>拷贝构造函数</h3><p>拷贝构造函数通过已经存在的相同类型的对象给新的对象赋值，主要用于：</p>
-<ul>
-<li><p>通过使用另一个同类型的对象来初始化新创建的对象</p>
-</li>
-<li><p>复制对象把它作为参数传递给函数</p>
-</li>
-<li><p>复制对象，并从函数返回这个对象</p>
-</li>
-</ul>
-<p>一般形式如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Line</span> (<span class="type">const</span> Line &amp;obj) &#123;</span><br><span class="line">   <span class="comment">// 构造函数的主体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在 <code>classname a = b;</code> 是会被调用，其中 <code>b</code> 是一个已经存在的对象。</p>
-<p>如果有一个函数的参数是一个类，如 <code>int getlength(Line line)</code>，那么在传参的时候，拷贝函数也会被调用。</p>
-<p>如果一个函数的返回类型是一个类，如 <code>Line addlen(Line a, Line b)</code>，那么在函数返回的时候，拷贝函数也会被调用。</p>
-<h3 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h3><p>类的<strong>析构函数</strong>是类的一种特殊的成员函数，它会在每次删除所创建的对象时执行。</p>
-<p>析构函数的名称与类的名称是完全相同的，只是在前面加了个波浪号（~）作为前缀，它不会返回任何值，也不能带有任何参数。析构函数有助于在跳出程序（比如关闭文件、释放内存等）前释放资源。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~<span class="built_in">Line</span>(<span class="type">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;释放内存&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">delete</span> ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="举个🌰"><a href="#举个🌰" class="headerlink" title="举个🌰"></a>举个🌰</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Line</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">public</span>:</span><br><span class="line">      <span class="function"><span class="type">int</span> <span class="title">getLength</span><span class="params">( <span class="type">void</span> )</span></span>;</span><br><span class="line">	  <span class="function"><span class="type">void</span> <span class="title">setLength</span><span class="params">( <span class="type">int</span> )</span></span>;</span><br><span class="line">	  <span class="built_in">Line</span>( <span class="type">void</span> );                <span class="comment">// 默认构造函数</span></span><br><span class="line">      <span class="built_in">Line</span>( <span class="type">int</span> len );             <span class="comment">// 参数构造函数</span></span><br><span class="line">      <span class="built_in">Line</span>( <span class="type">const</span> Line &amp;obj);      <span class="comment">// 拷贝构造函数</span></span><br><span class="line">      ~<span class="built_in">Line</span>();                     <span class="comment">// 析构函数</span></span><br><span class="line"> </span><br><span class="line">   <span class="keyword">private</span>:</span><br><span class="line">      <span class="type">int</span> *ptr;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">Line::<span class="built_in">Line</span>(<span class="type">void</span>) &#123;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;default constructor\n&quot;</span>;</span><br><span class="line">	ptr = <span class="keyword">new</span> <span class="type">int</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Line::<span class="built_in">Line</span>(<span class="type">int</span> len) &#123;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;parameter constructor\n&quot;</span>;</span><br><span class="line">    ptr = <span class="keyword">new</span> <span class="type">int</span>;</span><br><span class="line">    *ptr = len;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Line::<span class="built_in">Line</span>(<span class="type">const</span> Line &amp;obj) &#123;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;copy constructor\n&quot;</span>;</span><br><span class="line">    ptr = <span class="keyword">new</span> <span class="type">int</span>;</span><br><span class="line">    *ptr = *obj.ptr;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">Line::~<span class="built_in">Line</span>(<span class="type">void</span>) &#123;</span><br><span class="line">    cout &lt;&lt; *ptr &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;destructor\n&quot;</span>;</span><br><span class="line">    <span class="keyword">delete</span> ptr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Line::getLength</span><span class="params">(<span class="type">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> *ptr;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Line::setLength</span><span class="params">(<span class="type">int</span> l)</span> </span>&#123;</span><br><span class="line">	*ptr = l;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">display</span><span class="params">(Line obj)</span> </span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;line = &quot;</span> &lt;&lt; obj.<span class="built_in">getLength</span>() &lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Line <span class="title">add</span><span class="params">(Line a, Line b)</span> </span>&#123;</span><br><span class="line">	<span class="function">Line <span class="title">line</span><span class="params">(a.getLength()+b.getLength())</span></span>;</span><br><span class="line">	<span class="keyword">return</span> line;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">( )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">Line <span class="title">a</span><span class="params">(<span class="number">1</span>)</span>, b</span>;</span><br><span class="line">	b.<span class="built_in">setLength</span>(<span class="number">2</span>);</span><br><span class="line">	</span><br><span class="line">	Line c = <span class="built_in">add</span>(a,b);</span><br><span class="line">	<span class="built_in">display</span>(c);</span><br><span class="line"> </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>The program’s output is …</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">parameter constructor     // 对象a的声明</span><br><span class="line">default constructor       // 对象b的声明</span><br><span class="line">copy constructor          // 对象a传参进入函数add</span><br><span class="line">copy constructor          // 对象b传参进入函数add</span><br><span class="line">parameter constructor     // add函数内部对象line的声明</span><br><span class="line">1 destructor              // add函数中对象a析构</span><br><span class="line">2 destructor              // add函数中对象b析构</span><br><span class="line">copy constructor          // 对象c传参进入函数display</span><br><span class="line">line = 3</span><br><span class="line">3 destructor               // add函数返回的临时对象被析构</span><br><span class="line">3 destructor               // c被析构</span><br><span class="line">2 destructor               // b被析构</span><br><span class="line">1 destructor               // a被析构</span><br></pre></td></tr></table></figure>
-
-<p>你做对了吗？<img src="https://dl4.weshineapp.com/gif/20171108/fc000e7f33d62d14b1c518831d727f91.gif?f=micro_54uX5aS0" style="zoom:20%;" /></p>
-<h2 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h2><blockquote>
-<p>类的友元函数是定义在类外部，但有权访问类的所有私有（private）成员和保护（protected）成员。尽管友元函数的原型有在类的定义中出现过，但是友元函数并不是成员函数。</p>
-<p>友元可以是一个函数，该函数被称为友元函数；友元也可以是一个类，该类被称为友元类，在这种情况下，整个类及其所有成员都是友元。</p>
-<p>如果要声明函数为一个类的友元，需要在类定义中该函数原型前使用关键字 <strong>friend</strong></p>
-</blockquote>
-<p>（摘自<a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-friend-functions.html">菜鸟</a>)</p>
-<p>定义函数的时候不需要 <code>::</code> 因为友元函数并不是类的成员。</p>
-<h2 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h2><blockquote>
-<p>C++ <strong>内联函数</strong>是通常与类一起使用。如果一个函数是内联的，那么在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方。</p>
-<p>对内联函数进行任何修改，都需要重新编译函数的所有客户端，因为编译器需要重新更换一次所有的代码，否则将会继续使用旧的函数。</p>
-<p>如果想把一个函数定义为内联函数，则需要在函数名前面放置关键字 <strong>inline</strong>，在调用函数之前需要对函数进行定义。如果已定义的函数多于一行，编译器会忽略 inline 限定符。</p>
-<p>在类定义中的定义的函数都是内联函数，即使没有使用 <strong>inline</strong> 说明符。</p>
-</blockquote>
-<p>(摘自<a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-inline-functions.html">菜鸟</a>)</p>
-<p>当内联函数是一个比较小的函数，内联能够提高代码性能，否则得不偿失。</p>
-<p>内联函数里一般不能用for，switch语句。</p>
-<h2 id="this-指针"><a href="#this-指针" class="headerlink" title="this 指针"></a>this 指针</h2><blockquote>
-<p>在 C++ 中，<strong>this</strong> 指针是一个特殊的指针，它指向当前对象的实例。</p>
-<p>在 C++ 中，每一个对象都能通过 <strong>this</strong> 指针来访问自己的地址。</p>
-<p><strong>this</strong>是一个隐藏的指针，可以在类的成员函数中使用，它可以用来指向调用对象。</p>
-<p>当一个对象的成员函数被调用时，编译器会隐式地传递该对象的地址作为 this 指针。</p>
-<p>友元函数没有 <strong>this</strong> 指针，因为友元不是类的成员，只有成员函数才有 <strong>this</strong> 指针。</p>
-</blockquote>
-<p>摘自<a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-this-pointer.html">菜鸟</a></p>
-<h2 id="参考资料-Reference"><a href="#参考资料-Reference" class="headerlink" title="参考资料 Reference"></a>参考资料 Reference</h2><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-classes-objects.html">https://www.runoob.com/cplusplus/cpp-classes-objects.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/luoweifu/article/details/46959173">https://blog.csdn.net/luoweifu/article/details/46959173</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kunhu/p/3631285.html">https://www.cnblogs.com/kunhu/p/3631285.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wkfvawl/p/10620639.html">https://www.cnblogs.com/wkfvawl/p/10620639.html</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/05/23/class/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
