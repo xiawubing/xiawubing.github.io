@@ -19,23 +19,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"xiawubing.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":200},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Xia Wubing&#39;s Blog">
-<meta property="og:url" content="http://xiawubing.github.io/tags/rhet/index.html">
+    <meta name="description" content="求$$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{i}C(i,j)\bmod j$$其中 $𝐶(𝑖,𝑗)$ 表示从 $i$ 个数当中选 $j$​ 个的不同圆排列数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CF1957E Carousel of Combinations">
+<meta property="og:url" content="http://xiawubing.github.io/2024/07/05/CF1957E/index.html">
 <meta property="og:site_name" content="Xia Wubing&#39;s Blog">
+<meta property="og:description" content="求$$\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{i}C(i,j)\bmod j$$其中 $𝐶(𝑖,𝑗)$ 表示从 $i$ 个数当中选 $j$​ 个的不同圆排列数。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-05T03:29:24.000Z">
+<meta property="article:modified_time" content="2024-07-05T03:31:19.027Z">
 <meta property="article:author" content="Xia Wubing">
+<meta property="article:tag" content="CF,math">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://xiawubing.github.io/tags/rhet/">
+<link rel="canonical" href="http://xiawubing.github.io/2024/07/05/CF1957E/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":"","permalink":"","path":"tags/rhet/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://xiawubing.github.io/2024/07/05/CF1957E/","path":"2024/07/05/CF1957E/","title":"CF1957E Carousel of Combinations"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Tag: rhet | Xia Wubing's Blog</title>
+<title>CF1957E Carousel of Combinations | Xia Wubing's Blog</title>
   
 
 
@@ -158,50 +163,122 @@
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">rhet
-          <small>Tag</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://xiawubing.github.io/2024/07/05/CF1957E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Xia Wubing">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xia Wubing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CF1957E Carousel of Combinations | Xia Wubing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CF1957E Carousel of Combinations
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2024</span>
+
+      <time title="Created: 2024-07-05 11:29:24 / Modified: 11:31:19" itemprop="dateCreated datePublished" datetime="2024-07-05T11:29:24+08:00">2024-07-05</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>求<br>$$<br>\sum_{i&#x3D;1}^{n}\sum_{j&#x3D;1}^{i}C(i,j)\bmod j<br>$$<br>其中 $𝐶(𝑖,𝑗)$ 表示从 $i$ 个数当中选 $j$​ 个的不同圆排列数。</p>
+<hr>
+<span id="more"></span>
+
+
+<p>显然，<br>$$<br>C(i,j) &#x3D; \binom{i}{j}(j-1)!<br>$$<br>首先，根据威尔逊定理：</p>
+<p>当 $p$ 为质数：<br>$$<br>(p-1)!\equiv-1 \ (\bmod \ n)<br>$$<br>当 $p &#x3D; 4$ 时：<br>$$<br>(p-1)!\equiv 2 \ (\bmod \ n)<br>$$<br>当 $p$ 为非 $4$ 合数：<br>$$<br>(p-1)!\equiv 0 \ (\bmod \ n)<br>$$<br>所以只需要考虑 $j&#x3D;4$ 或 $j$ 为质数的情况。 </p>
+<p>根据卢卡斯定理：当 $p$ 为质数时<br>$$<br>\binom{n}{m} \equiv \binom{\left \lfloor \frac{n}{p} \right \rfloor }{\left \lfloor \frac{m}{p} \right \rfloor }\binom{n\bmod p}{m\bmod p} \ (\bmod \ p)<br>$$<br>所以当 $j$ 是质数时，题目中的<br>$$<br>\binom{i}{j} \equiv \left \lfloor \frac{i}{j} \right \rfloor\ (\bmod j)<br>$$<br>于是，<br>$$<br>C(i,j) \equiv \left \lfloor \frac{i}{j} \right \rfloor(j-1) \ (\bmod j)<br>$$<br>题目中没有保证 $\sum n$ 的大小，所以我们要提前预处理出所有的 $n$</p>
+<p>我们可以分别算出每个 $i$ 的 $\sum_{j&#x3D;1}^{i}C(i,j)$ 然后做前缀和</p>
+<p>对于每个质数 $j$，对 $[kj,(k+1)j)$ 的 $i$ 的贡献都是相同的，可以用差分来离线完成区间加</p>
+<p>当 $j&#x3D;4$ 时<br>$$<br>C(i,4) \equiv 2\binom{i}{4}\ (\bmod 4)<br>$$</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2024-05-07T13:01:32+08:00"
-              content="2024-05-07">
-          05-07
-        </time>
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wxpay.jpg" alt="Xia Wubing WeChat Pay">
+        <span>WeChat Pay</span>
       </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2024/05/07/READ/" itemprop="url">
-            <span itemprop="name">Space Mining: A New Gold Rush, But This Time We All Win!</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
   </div>
-  
-  
-  
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CF-math/" rel="tag"># CF,math</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/05/23/class/" rel="prev" title="C++ class学习笔记">
+                  <i class="fa fa-angle-left"></i> C++ class学习笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
 
 </div>
   </main>
